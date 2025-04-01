@@ -63,11 +63,9 @@ def read_with_pandas(filename):
         """
     try:
         with open(filename, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
+            lines = [line.strip() for line in file.readlines()]
         return pd.DataFrame(lines, columns=["Content"])
     except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.")
-        return pd.DataFrame()
+        raise FileNotFoundError(f"The file '{filename}' was not found.")
     except Exception as e:
-        print(f"Error reading file '{filename}': {e}")
-        return pd.DataFrame()
+        raise Exception(f"Error reading file '{filename}': {e}")
